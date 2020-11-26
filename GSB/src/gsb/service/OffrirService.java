@@ -8,7 +8,6 @@ import gsb.modele.dao.OffrirDao;
 import gsb.modele.dao.StockerDao;
 import gsb.modele.dao.VisiteDao;
 import gsb.modele.dao.VisiteurDao;
-import junit.framework.TestCase;
 
 public class OffrirService {
 	
