@@ -19,15 +19,17 @@ public class ConnexionMySql { // DAO = Data Access Object
 	 */
 	public static void connecterBd(){
 		//connexion à la base de donnée à partir de jdbc
-		String url = "jdbc:mysql://localhost:3308/gsbJava?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC"; // url : chaine de connexion
+		String url = "jdbc:mysql://localhost:3308/gsbjava?zeroDateTimeBehavior=CONVERTTONULL&serverTimezone=UTC"; // url : chaine de connexion
 		// try permet d'essayer de lancer la connexion
 		try {Class.forName("com.mysql.jdbc.Driver"); 
-			cnx = DriverManager.getConnection(url,"root","password");
-		} 
-		// si la connexion echoue un message d'erreur est affiché
-        catch(Exception e) {  System.out.println("Echec lors de la connexion");  } 
+		cnx = DriverManager.getConnection(url,"root","password"); 
+		System.out.println( "la connexion à la base secolog s'est bien déroulée !");
+	} 
+	// si la connexion echoue un message d'erreur est affiché
+    catch(Exception e) {  System.out.println("erreur lors de la connexion à la BDD");  } 
 
-	}
+}
+
 	
 	/**
 	 * @param laRequete requête SQL de type SELECT

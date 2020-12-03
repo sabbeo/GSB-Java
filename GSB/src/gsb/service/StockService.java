@@ -12,9 +12,9 @@ public class StockService {
 	public static ArrayList<Stocker> checkcodevisiteur (String code){
 		ArrayList<Stocker> lesStock = null;
       try{
-		if (code==null) {
-            throw new Exception("Données obligatoires : code");
-        } 
+		if (code==""){
+			throw new Exception("Données obligatoires : code ");
+		}
 		if (VisiteurDao.rechercher(code)==null){
 			throw new Exception("visisteur incorrecte ");
 		}
@@ -28,8 +28,9 @@ public class StockService {
       }
       return lesStock;
 	}
-	public static void ajoutStock (String code,String Depot,int QTE){
+	public static int ajoutStock (String code,String Depot,int QTE){
 		String unQTE = Integer.toString(QTE);
+		int retoure = 0;
 		try{
 			if (code==null || Depot==null && unQTE==null) {
 				throw new Exception("Données obligatoires : code, depot, QTE");
@@ -42,11 +43,13 @@ public class StockService {
 			}
 			else{
 				
-			StockerDao.Ajout(VisiteurDao.rechercher(code), MedicamentDao.rechercher(Depot),QTE);
+			retoure =StockerDao.Ajout(VisiteurDao.rechercher(code), MedicamentDao.rechercher(Depot),QTE);
+			
 			}
 		}
 		catch(Exception e){
 			System.out.println( e.getMessage());
 		}
+		return retoure;
 	}
 }

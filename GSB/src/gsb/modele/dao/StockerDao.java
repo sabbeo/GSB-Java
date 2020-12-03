@@ -68,20 +68,22 @@ public static ArrayList<Stocker> ListeMedicament(String code){
 
 return lesStock;
 }
-	public static void Ajout(Visiteur unVisiteur,Medicament unMedicament,int QTE){
+	public static int Ajout(Visiteur unVisiteur,Medicament unMedicament,int QTE){
 
 		Stocker unStock = StockerDao.rechercher(unMedicament,unVisiteur);
-		
-		int StockQTE = unStock.getQteStock()- QTE;
+		int retoure = 0;
+		int StockQTE = unStock.getQteStock()+ QTE;
 		
 		
 		try {
 			// Statement : C'est une classe que l'application  emploie pour transmettre des instructions à la base
-			ConnexionMySql.execReqMaj("update stocker set QTE = '"+StockQTE+"' where visiteur = '"+unVisiteur.getMatricule()+"' and medicament = '"+unMedicament.getDepotLegal()+"' ");
+			retoure = ConnexionMySql.execReqMaj("update stocker set QTE = '"+StockQTE+"' where visiteur = '"+unVisiteur.getMatricule()+"' and medicament = '"+unMedicament.getDepotLegal()+"' ");
+			
 	} // fin try
 	catch(Exception e) {  
 		e.printStackTrace();
 		System.out.println("Erreur requete : INSERT INTO stocker VALUES ('"+unVisiteur.getMatricule()+ "','" +unMedicament.getDepotLegal()+ "','" +QTE+ "')");
 	}
+		return retoure;
 	}
 }
