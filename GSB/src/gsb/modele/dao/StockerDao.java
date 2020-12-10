@@ -68,22 +68,41 @@ public static ArrayList<Stocker> ListeMedicament(String code){
 
 return lesStock;
 }
+	@SuppressWarnings("unused")
 	public static int Ajout(Visiteur unVisiteur,Medicament unMedicament,int QTE){
 
 		Stocker unStock = StockerDao.rechercher(unMedicament,unVisiteur);
 		int retoure = 0;
-		int StockQTE = unStock.getQteStock()+ QTE;
 		
 		
-		try {
-			// Statement : C'est une classe que l'application  emploie pour transmettre des instructions à la base
-			retoure = ConnexionMySql.execReqMaj("update stocker set QTE = '"+StockQTE+"' where visiteur = '"+unVisiteur.getMatricule()+"' and medicament = '"+unMedicament.getDepotLegal()+"' ");
+		if (unStock !=null){
+			try {
+				
+				System.out.println("update stocker set QTE = '"+QTE+"' where visiteur = '"+unVisiteur.getMatricule()+"' and medicament = '"+unMedicament.getDepotLegal()+"' ");
+				// Statement : C'est une classe que l'application  emploie pour transmettre des instructions à la base
+				int StockQTE = unStock.getQteStock()+ QTE;
+				retoure = ConnexionMySql.execReqMaj("update stocker set QTE = '"+StockQTE+"' where visiteur = '"+unVisiteur.getMatricule()+"' and medicament = '"+unMedicament.getDepotLegal()+"' ");
+				
+			}
+			catch(Exception e) {  
+				e.printStackTrace();
+				System.out.println("Erreur requete : INSERT INTO stocker VALUES ('"+unVisiteur.getMatricule()+ "','" +unMedicament.getDepotLegal()+ "','" +QTE+ "')");
+			}
+		}
+		else{
+			try {
+				System.out.println("insert into stocker '"+unVisiteur.getMatricule() +"','"+unMedicament.getDepotLegal()+"','" +QTE+ "')");
+
+				// Statement : C'est une classe que l'application  emploie pour transmettre des instructions à la base
+					retoure = ConnexionMySql.execReqMaj("insert into stocker VALUES('"+unVisiteur.getMatricule() +"','"+unMedicament.getDepotLegal()+"','" +QTE+ "')");
+					
+				}
 			
-	} // fin try
-	catch(Exception e) {  
-		e.printStackTrace();
-		System.out.println("Erreur requete : INSERT INTO stocker VALUES ('"+unVisiteur.getMatricule()+ "','" +unMedicament.getDepotLegal()+ "','" +QTE+ "')");
-	}
+				catch(Exception e) {  
+					e.printStackTrace();
+					System.out.println("Erreur requete : INSERT INTO stocker VALUES ('"+unVisiteur.getMatricule()+ "','" +unMedicament.getDepotLegal()+ "','" +QTE+ "')");
+				}
+			}
 		return retoure;
 	}
 }
